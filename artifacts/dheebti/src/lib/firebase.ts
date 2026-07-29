@@ -44,8 +44,8 @@ export async function getMessagingInstance() {
   return messaging;
 }
 
-// VAPID Key - you need to add this to your Firebase project
-export const VAPID_KEY = import.meta.env.VITE_FIREBASE_VAPID_KEY || "BCFjGGJYBtNJrdyXswF-tD3rMiAIPeyYmoxABN74Fx1rMPdQGEZxrj8chSjlk3Ogc2AzzvVMCx_wOtLquKh8Yi8Wu4e-viNQz89O85ACf0UaL1Y40voyf3oznCARueTZKo";
+// VAPID Key - Firebase Cloud Messaging
+export const VAPID_KEY = import.meta.env.VITE_FIREBASE_VAPID_KEY || "BEl3uHdVKg8DgD6jP3MkgIAKIAc9-qIxoN5sAjZudbLh0YjThu20J33crEBrlez6RaLsIsFxL7vvVPu65CJQ54U";
 
 export { app };
 
