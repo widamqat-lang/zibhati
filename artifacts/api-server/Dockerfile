@@ -12,12 +12,16 @@ WORKDIR /app
 COPY pnpm-workspace.yaml pnpm-lock.yaml package.json ./
 COPY lib ./lib
 COPY artifacts/api-server ./artifacts/api-server
+COPY artifacts/dheebti ./artifacts/dheebti
 
-# Install dependencies (only for api-server)
-RUN pnpm install --filter @workspace/api-server --frozen-lockfile
+# Install dependencies (for api-server and dheebti)
+RUN pnpm install --frozen-lockfile
 
 # Build the API server
 RUN pnpm --filter @workspace/api-server run build
+
+# Build the frontend
+RUN pnpm --filter @workspace/dheebti run build
 
 # Production stage
 FROM node:22-alpine AS production
@@ -29,6 +33,7 @@ WORKDIR /app
 
 # Copy built artifacts
 COPY --from=builder /app/artifacts/api-server/dist ./dist
+COPY --from=builder /app/artifacts/dheebti/dist ./artifacts/dheebti/dist
 
 # Copy only the needed node_modules
 COPY --from=builder /app/artifacts/api-server/node_modules ./node_modules
