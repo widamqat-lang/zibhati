@@ -75,18 +75,39 @@ export async function requestNotificationPermission(): Promise<{
     console.log("[FCM] Permission result:", permission);
     
     if (permission === 'granted') {
-      console.log("[FCM] Permission granted, waiting for Service Worker to be ready...");
+      console.log("[FCM] Permission granted, getting Firebase Messaging Service Worker...");
       
-      // Wait for Service Worker to be ready
       try {
-        const registration = await navigator.serviceWorker.ready;
-        console.log("[FCM] Service Worker ready:", registration.active?.state || "unknown");
+        // Get the specific Firebase Messaging Service Worker
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        console.log("[FCM] Found SW registrations:", registrations.length);
         
-        // Small delay to ensure SW is fully initialized
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        let swRegistration = null;
+        for (const reg of registrations) {
+          console.log("[FCM] SW:", reg.active?.scriptURL || "none");
+          if (reg.active?.scriptURL?.includes('firebase-messaging-sw')) {
+            swRegistration = reg;
+            break;
+          }
+        }
         
+        if (!swRegistration) {
+          // Register and wait for it
+          console.log("[FCM] Registering firebase-messaging-sw.js...");
+          swRegistration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+          await swRegistration.update();
+        }
+        
+        // Wait for the SW to be ready
+        const fcmSW = await navigator.serviceWorker.ready;
+        console.log("[FCM] FCM Service Worker ready:", fcmSW.active?.state || "unknown");
+        
+        // Get FCM token with the specific SW registration
         console.log("[FCM] Getting FCM token...");
-        const token = await getToken(msg, { vapidKey: VAPID_KEY });
+        const token = await getToken(msg, { 
+          vapidKey: VAPID_KEY,
+          serviceWorkerRegistration: swRegistration
+        });
         console.log("[FCM] Success! Got token:", token ? `${token.substring(0, 30)}...` : "EMPTY");
         if (token) {
           return { success: true, token };
