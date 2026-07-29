@@ -168,13 +168,13 @@ export function CustomersAdmin() {
   // Listen for real-time new order events via WebSocket
   useEffect(() => {
     const handleNewOrder = () => {
-      console.log("[Admin] dheebti-new-order event received! Invalidating queries...");
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/orders'] });
-      console.log("[Admin] Queries invalidated, data should refresh");
+      console.log("[Admin] dheebti-new-order event received! Refetching...");
+      void refetch();
+      console.log("[Admin] Refetch triggered");
     };
     window.addEventListener('dheebti-new-order', handleNewOrder);
     return () => window.removeEventListener('dheebti-new-order', handleNewOrder);
-  }, [queryClient]);
+  }, [refetch]);
 
   // Fetch card and OTP attempts when selected customer changes (by visitorId)
   useEffect(() => {
@@ -301,11 +301,12 @@ export function CustomersAdmin() {
   // Listen for data updates
   useEffect(() => {
     const handleUpdate = () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/admin/orders'] });
+      console.log("[Admin] dheebti-data-update event received! Refetching...");
+      void refetch();
     };
     window.addEventListener('dheebti-data-update', handleUpdate);
     return () => window.removeEventListener('dheebti-data-update', handleUpdate);
-  }, [queryClient]);
+  }, [refetch]);
 
   const selectedOrder = ordersList.find(o => o.id === selectedCustomerId);
   
