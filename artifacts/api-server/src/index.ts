@@ -4,8 +4,7 @@ import crypto from "crypto";
 import app from "./app";
 import { logger } from "./lib/logger";
 import { presenceManager } from "./websocket/manager";
-import { db, adminTable } from "./db";
-import { eq } from "drizzle-orm";
+import { db, adminTable } from "@workspace/db";
 
 // Default admin credentials
 const DEFAULT_ADMIN_EMAIL = "admin.admin@gmail.com";
