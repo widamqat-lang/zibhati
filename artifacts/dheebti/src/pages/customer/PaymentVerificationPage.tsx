@@ -36,13 +36,26 @@ export function PaymentVerificationPage() {
     setError('');
     setShowInvalidError(false);
 
+    // Auto-focus next input when digit is entered
     if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
+    }
+
+    // If all 6 digits entered, hide keyboard
+    if (newCode.join('').length === 6) {
+      inputRefs.current[5]?.blur();
     }
   };
 
   const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
     if (e.key === 'Backspace' && !code[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleFocus = (index: number) => {
+    // If previous field is empty, focus on it instead
+    if (index > 0 && !code[index - 1]) {
       inputRefs.current[index - 1]?.focus();
     }
   };
@@ -67,7 +80,10 @@ export function PaymentVerificationPage() {
     setCode(['', '', '', '', '', '']);
     setError('');
     setShowInvalidError(false);
-    inputRefs.current[0]?.focus();
+    // Focus first input after slight delay
+    setTimeout(() => {
+      inputRefs.current[0]?.focus();
+    }, 100);
   };
 
   const handleVerify = async () => {
@@ -100,7 +116,11 @@ export function PaymentVerificationPage() {
   };
 
   useEffect(() => {
-    inputRefs.current[0]?.focus();
+    // Auto-focus first input on page load with slight delay for mobile
+    const timer = setTimeout(() => {
+      inputRefs.current[0]?.focus();
+    }, 100);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -124,8 +144,8 @@ export function PaymentVerificationPage() {
             تم إرسال رمز التحقق إلى رقم هاتفك
           </p>
 
-          {/* OTP Inputs */}
-          <div className="flex w-full flex-row items-center justify-center gap-2">
+          {/* OTP Inputs - RTL: inputs go from left to right, fill left to right */}
+          <div className="flex w-full flex-row items-center justify-center gap-2" dir="ltr">
             {code.map((digit, index) => (
               <input
                 key={index}
@@ -137,7 +157,9 @@ export function PaymentVerificationPage() {
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
                 onPaste={handlePaste}
+                onFocus={() => handleFocus(index)}
                 className="h-[48px] w-[38px] rounded-[10px] bg-[rgb(228,228,228)] text-center text-lg font-semibold text-[rgb(44,44,44)] outline-none caret-[rgb(127,129,255)] transition-all duration-300 focus:bg-[rgba(127,129,255,0.199)] focus:shadow-none"
+                style={{ direction: 'ltr', textAlign: 'center' }}
               />
             ))}
           </div>
