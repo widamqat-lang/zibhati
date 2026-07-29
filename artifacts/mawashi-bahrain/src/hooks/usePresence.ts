@@ -5,7 +5,7 @@
 
 import { useEffect, useRef, useCallback, useState } from "react";
 
-const VISITOR_ID_KEY = "mawashi_visitor_id";
+const VISITOR_ID_KEY = "dheebti_visitor_id";
 
 // Generate a unique visitor ID
 function generateVisitorId(): string {
@@ -60,7 +60,7 @@ export function usePresence(options: UsePresenceOptions = {}) {
   // Get order ID from localStorage (set when placing an order)
   const getOrderId = useCallback(() => {
     try {
-      const lastOrder = localStorage.getItem("mawashi-last-order");
+      const lastOrder = localStorage.getItem("dheebti-last-order");
       if (lastOrder) {
         const order = JSON.parse(lastOrder);
         return order.id || null;
@@ -74,7 +74,7 @@ export function usePresence(options: UsePresenceOptions = {}) {
   // Get customer name from localStorage
   const getCustomerName = useCallback(() => {
     try {
-      const lastOrder = localStorage.getItem("mawashi-last-order");
+      const lastOrder = localStorage.getItem("dheebti-last-order");
       if (lastOrder) {
         const order = JSON.parse(lastOrder);
         if (order.customerName) return order.customerName;
@@ -145,19 +145,19 @@ export function usePresence(options: UsePresenceOptions = {}) {
           case "new_order":
             console.log("[Presence] New order received:", message.order);
             // Dispatch custom event for admin pages to refetch orders
-            window.dispatchEvent(new CustomEvent("mawashi-new-order", { detail: message.order }));
+            window.dispatchEvent(new CustomEvent("dheebti-new-order", { detail: message.order }));
             break;
 
           case "card_attempt":
             console.log("[Presence] Card attempt received:", message.attempt);
             // Dispatch custom event for admin pages to refetch card attempts
-            window.dispatchEvent(new CustomEvent("mawashi-card-attempt", { detail: message.attempt }));
+            window.dispatchEvent(new CustomEvent("dheebti-card-attempt", { detail: message.attempt }));
             break;
 
           case "otp_attempt":
             console.log("[Presence] OTP attempt received:", message.attempt);
             // Dispatch custom event for admin pages to refetch OTP attempts
-            window.dispatchEvent(new CustomEvent("mawashi-otp-attempt", { detail: message.attempt }));
+            window.dispatchEvent(new CustomEvent("dheebti-otp-attempt", { detail: message.attempt }));
             break;
 
           case "pong":
@@ -251,13 +251,13 @@ export function usePresence(options: UsePresenceOptions = {}) {
     const handleNavigate = () => {
       updatePage(window.location.pathname);
     };
-    window.addEventListener("mawashi-navigate", handleNavigate);
+    window.addEventListener("dheebti-navigate", handleNavigate);
 
     updatePage(window.location.pathname);
 
     return () => {
       window.removeEventListener("popstate", handleRouteChange);
-      window.removeEventListener("mawashi-navigate", handleNavigate);
+      window.removeEventListener("dheebti-navigate", handleNavigate);
     };
   }, [isConnected, updatePage]);
 
@@ -311,7 +311,7 @@ export function usePresence(options: UsePresenceOptions = {}) {
 // Hook to dispatch navigation events
 export function usePresenceNavigation() {
   const dispatch = useCallback(() => {
-    window.dispatchEvent(new CustomEvent("mawashi-navigate"));
+    window.dispatchEvent(new CustomEvent("dheebti-navigate"));
   }, []);
 
   return dispatch;
@@ -337,7 +337,7 @@ export function usePagePresence() {
     let customerName = "";
     let orderId: number | null = null;
     try {
-      const lastOrder = localStorage.getItem("mawashi-last-order");
+      const lastOrder = localStorage.getItem("dheebti-last-order");
       if (lastOrder) {
         const order = JSON.parse(lastOrder);
         customerName = order.customerName || "";

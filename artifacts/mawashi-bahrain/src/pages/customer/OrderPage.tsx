@@ -68,12 +68,12 @@ export function OrderPage() {
       preparationType,
       paymentMethod: 'cash_on_delivery' as const 
     };
-    sessionStorage.setItem('mawashi-order-draft', JSON.stringify(payload));
-    sessionStorage.setItem('mawashi-customer-name', customerName);
+    sessionStorage.setItem('dheebti-order-draft', JSON.stringify(payload));
+    sessionStorage.setItem('dheebti-customer-name', customerName);
     
     // Dispatch event for admin real-time updates
-    console.log('[ORDER] Dispatching mawashi-customer-info', { customerName, phone, address });
-    window.dispatchEvent(new CustomEvent('mawashi-customer-info', { 
+    console.log('[ORDER] Dispatching dheebti-customer-info', { customerName, phone, address });
+    window.dispatchEvent(new CustomEvent('dheebti-customer-info', { 
       detail: { 
         customerName,
         phone,

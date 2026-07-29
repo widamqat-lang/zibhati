@@ -105,7 +105,7 @@ export function Shell({ children, showSidebar = false }: { children: React.React
           <div className="grid gap-8 md:grid-cols-3">
             <div>
               <BrandMark />
-              <p className="mt-4 text-xs text-muted-foreground">مواشي البحرين - أفضل أنواع المواشي الطازجة من المزرعة إلى بابكم.</p>
+              <p className="mt-4 text-xs text-muted-foreground">ذبيحتي - أفضل أنواع المواشي الطازجة من المزرعة إلى بابكم.</p>
             </div>
             <div>
               <h3 className="font-bold">روابط سريعة</h3>
@@ -119,14 +119,14 @@ export function Shell({ children, showSidebar = false }: { children: React.React
             <div>
               <h3 className="font-bold">تواصل معنا</h3>
               <div className="mt-3 space-y-2 text-xs text-muted-foreground">
-                <p>📞 +973 1700 0000</p>
+                <p>📞 +971 50 000 0000</p>
                 <p>✉️ info@bahrainlivestock.com</p>
-                <p>📍 مملكة البحرين</p>
+                <p>📍 مملكة الإمارات</p>
               </div>
             </div>
           </div>
           <div className="mt-8 border-t border-border pt-6 text-center text-[10px] text-muted-foreground">
-            © 2024 مواشي البحرين. جميع الحقوق محفوظة.
+            © 2024 ذبيحتي. جميع الحقوق محفوظة.
           </div>
         </div>
       </footer>

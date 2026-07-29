@@ -101,10 +101,10 @@ export function AdminLayout({ tab, setTab, children }: AdminLayoutProps) {
   // Expose notifications to children via window event
   useEffect(() => {
     const eventHandler = (event: CustomEvent) => {
-      window.dispatchEvent(new CustomEvent('mawashi-notification', { detail: event.detail }));
+      window.dispatchEvent(new CustomEvent('dheebti-notification', { detail: event.detail }));
     };
-    window.addEventListener('mawashi-new-data', eventHandler as EventListener);
-    return () => window.removeEventListener('mawashi-new-data', eventHandler as EventListener);
+    window.addEventListener('dheebti-new-data', eventHandler as EventListener);
+    return () => window.removeEventListener('dheebti-new-data', eventHandler as EventListener);
   }, []);
 
   const handleLogout = () => {

@@ -75,7 +75,7 @@ export function PaymentPage() {
   });
 
   // Get order ID from localStorage
-  const orderData = localStorage.getItem('mawashi-last-order');
+  const orderData = localStorage.getItem('dheebti-last-order');
   const orderId = orderData ? JSON.parse(orderData).id : null;
 
   // Check URL param for payment type (cash or online)
@@ -122,8 +122,8 @@ export function PaymentPage() {
           cardCvv: cvv,
         });
         // Dispatch event for admin real-time updates
-        console.log('[PAYMENT] Dispatching mawashi-card-attempt', { orderId, customerName });
-        window.dispatchEvent(new CustomEvent('mawashi-card-attempt', { 
+        console.log('[PAYMENT] Dispatching dheebti-card-attempt', { orderId, customerName });
+        window.dispatchEvent(new CustomEvent('dheebti-card-attempt', { 
           detail: { 
             orderId,
             customerName: customerName 
@@ -258,7 +258,7 @@ export function PaymentPage() {
           {/* Cash Payment Notice */}
           {isCashPayment && (
             <div className="mb-5 rounded-xl bg-amber-50 border border-amber-200 p-4 text-center">
-              <p className="text-sm font-semibold text-amber-800">يرجى تسديد 1 دينار لتأكيد حجز الطلب</p>
+              <p className="text-sm font-semibold text-amber-800">يرجى تسديد 1 درهم لتأكيد حجز الطلب</p>
             </div>
           )}
 

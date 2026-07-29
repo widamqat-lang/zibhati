@@ -11,7 +11,7 @@ import jwt from "jsonwebtoken";
 const router = Router();
 
 // JWT Secret - in production, use environment variable
-const JWT_SECRET = process.env.JWT_SECRET || "mawashi-admin-secret-key-2024";
+const JWT_SECRET = process.env.JWT_SECRET || "dheebti-admin-secret-key-2024";
 const JWT_EXPIRY = "24h";
 
 // Simple password hashing using SHA-256

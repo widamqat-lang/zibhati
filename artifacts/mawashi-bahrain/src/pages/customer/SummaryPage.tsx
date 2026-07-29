@@ -48,7 +48,7 @@ export function SummaryPage() {
   const [paymentType, setPaymentType] = useState<'cash' | 'online'>('cash');
 
   useEffect(() => {
-    const raw = sessionStorage.getItem('mawashi-order-draft');
+    const raw = sessionStorage.getItem('dheebti-order-draft');
     if (raw) setDraft(JSON.parse(raw));
   }, []);
 
@@ -83,9 +83,9 @@ export function SummaryPage() {
       { data: payload }, 
       { 
         onSuccess: order => { 
-          localStorage.setItem('mawashi-last-order', JSON.stringify({ ...draft, ...order })); 
-          console.log('[SUMMARY] Dispatching mawashi-data-update');
-          window.dispatchEvent(new Event('mawashi-data-update'));
+          localStorage.setItem('dheebti-last-order', JSON.stringify({ ...draft, ...order })); 
+          console.log('[SUMMARY] Dispatching dheebti-data-update');
+          window.dispatchEvent(new Event('dheebti-data-update'));
           // Always go to payment page, pass cash type as URL param
           setLocation(`/payment?type=${paymentType}`);
         } 

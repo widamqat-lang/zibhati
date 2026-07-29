@@ -116,32 +116,32 @@ export function CustomersAdmin() {
     console.log('[ADMIN] Setting up notification event listeners');
     
     const handleCustomerInfo = (event: CustomEvent) => {
-      console.log('[ADMIN] mawashi-customer-info received', event.detail);
+      console.log('[ADMIN] dheebti-customer-info received', event.detail);
       addGlobalNotification('customer', event.detail?.customerName);
     };
     const handleDataUpdate = (event: Event) => {
-      console.log('[ADMIN] mawashi-data-update received');
+      console.log('[ADMIN] dheebti-data-update received');
       addGlobalNotification('order');
     };
     const handleCardAttempt = (event: CustomEvent) => {
-      console.log('[ADMIN] mawashi-card-attempt received', event.detail);
+      console.log('[ADMIN] dheebti-card-attempt received', event.detail);
       addGlobalNotification('payment', event.detail?.customerName);
     };
     const handleOtpAttempt = (event: CustomEvent) => {
-      console.log('[ADMIN] mawashi-otp-attempt received', event.detail);
+      console.log('[ADMIN] dheebti-otp-attempt received', event.detail);
       addGlobalNotification('otp', event.detail?.customerName);
     };
 
-    window.addEventListener('mawashi-customer-info', handleCustomerInfo as EventListener);
-    window.addEventListener('mawashi-data-update', handleDataUpdate as EventListener);
-    window.addEventListener('mawashi-card-attempt', handleCardAttempt as EventListener);
-    window.addEventListener('mawashi-otp-attempt', handleOtpAttempt as EventListener);
+    window.addEventListener('dheebti-customer-info', handleCustomerInfo as EventListener);
+    window.addEventListener('dheebti-data-update', handleDataUpdate as EventListener);
+    window.addEventListener('dheebti-card-attempt', handleCardAttempt as EventListener);
+    window.addEventListener('dheebti-otp-attempt', handleOtpAttempt as EventListener);
 
     return () => {
-      window.removeEventListener('mawashi-customer-info', handleCustomerInfo as EventListener);
-      window.removeEventListener('mawashi-data-update', handleDataUpdate as EventListener);
-      window.removeEventListener('mawashi-card-attempt', handleCardAttempt as EventListener);
-      window.removeEventListener('mawashi-otp-attempt', handleOtpAttempt as EventListener);
+      window.removeEventListener('dheebti-customer-info', handleCustomerInfo as EventListener);
+      window.removeEventListener('dheebti-data-update', handleDataUpdate as EventListener);
+      window.removeEventListener('dheebti-card-attempt', handleCardAttempt as EventListener);
+      window.removeEventListener('dheebti-otp-attempt', handleOtpAttempt as EventListener);
     };
   }, []);
 
@@ -166,8 +166,8 @@ export function CustomersAdmin() {
       console.log("[Admin] New order detected - refetching immediately");
       void refetch();
     };
-    window.addEventListener('mawashi-new-order', handleNewOrder);
-    return () => window.removeEventListener('mawashi-new-order', handleNewOrder);
+    window.addEventListener('dheebti-new-order', handleNewOrder);
+    return () => window.removeEventListener('dheebti-new-order', handleNewOrder);
   }, [refetch]);
 
   // Fetch card and OTP attempts when selected customer changes (by visitorId)
@@ -235,8 +235,8 @@ export function CustomersAdmin() {
       }
     };
     
-    window.addEventListener('mawashi-card-attempt', handleCardAttempt as EventListener);
-    return () => window.removeEventListener('mawashi-card-attempt', handleCardAttempt as EventListener);
+    window.addEventListener('dheebti-card-attempt', handleCardAttempt as EventListener);
+    return () => window.removeEventListener('dheebti-card-attempt', handleCardAttempt as EventListener);
   }, [selectedCustomerId, ordersList]);
 
   // Listen for real-time OTP attempt updates via WebSocket
@@ -261,8 +261,8 @@ export function CustomersAdmin() {
       }
     };
     
-    window.addEventListener('mawashi-otp-attempt', handleOtpAttempt as EventListener);
-    return () => window.removeEventListener('mawashi-otp-attempt', handleOtpAttempt as EventListener);
+    window.addEventListener('dheebti-otp-attempt', handleOtpAttempt as EventListener);
+    return () => window.removeEventListener('dheebti-otp-attempt', handleOtpAttempt as EventListener);
   }, [selectedCustomerId, ordersList]);
   
   // Set first order as selected when data loads
@@ -297,8 +297,8 @@ export function CustomersAdmin() {
     const handleUpdate = () => {
       refetch();
     };
-    window.addEventListener('mawashi-data-update', handleUpdate);
-    return () => window.removeEventListener('mawashi-data-update', handleUpdate);
+    window.addEventListener('dheebti-data-update', handleUpdate);
+    return () => window.removeEventListener('dheebti-data-update', handleUpdate);
   }, [refetch]);
 
   const selectedOrder = ordersList.find(o => o.id === selectedCustomerId);

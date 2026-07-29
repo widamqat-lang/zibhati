@@ -11,7 +11,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { z } from "zod/v4";
 
-export const productsTable = pgTable("mawashi_products", {
+export const productsTable = pgTable("dheebti_products", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   description: text("description").notNull(),
@@ -22,7 +22,7 @@ export const productsTable = pgTable("mawashi_products", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
-export const siteContentTable = pgTable("mawashi_site_content", {
+export const siteContentTable = pgTable("dheebti_site_content", {
   id: serial("id").primaryKey(),
   brandName: text("brand_name").notNull(),
   heroTitle: text("hero_title").notNull(),
@@ -32,7 +32,7 @@ export const siteContentTable = pgTable("mawashi_site_content", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
 });
 
-export const ordersTable = pgTable("mawashi_orders", {
+export const ordersTable = pgTable("dheebti_orders", {
   id: serial("id").primaryKey(),
   productId: integer("product_id").notNull(),
   productName: text("product_name").notNull(),
@@ -47,7 +47,7 @@ export const ordersTable = pgTable("mawashi_orders", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
-export const presenceTable = pgTable("mawashi_presence", {
+export const presenceTable = pgTable("dheebti_presence", {
   sessionId: text("session_id").primaryKey(),
   page: text("page").notNull(),
   label: text("label").notNull(),

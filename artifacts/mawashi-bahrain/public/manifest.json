@@ -1,7 +1,7 @@
 {
-  "name": "Mawashi Bahrain - لوحة التحكم",
-  "short_name": "ماشية البحرين",
-  "description": "لوحة تحكم متجر ماشية البحرين",
+  "name": "ذبيحتي - لوحة التحكم",
+  "short_name": "ذبيحتي",
+  "description": "لوحة تحكم متجر ذبيحتي",
   "start_url": "/admin",
   "display": "standalone",
   "background_color": "#ffffff",

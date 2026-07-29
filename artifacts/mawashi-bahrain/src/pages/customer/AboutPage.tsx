@@ -8,7 +8,7 @@ export function AboutPage() {
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-[-.06em]">من نحن</h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-8 text-muted-foreground">
-            قصة مواشي البحرين - من المزرعة إلى بابكم
+            قصة ذبيحتي - من المزرعة إلى بابكم
           </p>
         </div>
 
@@ -23,11 +23,11 @@ export function AboutPage() {
           <div className="flex flex-col justify-center">
             <h2 className="text-2xl font-bold">بدايتنا</h2>
             <p className="mt-4 text-sm leading-8 text-muted-foreground">
-              بدأنا رحلتنا في مواشي البحرين стремясь предоставить лучшее качество мяса для семей Бахрейна. 
+              بدأنا رحلتنا في ذبيحتي стремясь предоставить лучшее качество мяса для семей Бахрейна. 
               نؤمن بأن كل عائلة تستحق طعاماً طازجاً وذكي الجودة.
             </p>
             <p className="mt-4 text-sm leading-8 text-muted-foreground">
-              مزارعنا تقع في قلب مملكة البحرين، حيث نربي أفضل أنواع المواشي بعناية واهتمام.
+              مزارعنا تقع في قلب مملكة الإمارات، حيث نربي أفضل أنواع المواشي بعناية واهتمام.
             </p>
           </div>
         </div>

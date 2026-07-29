@@ -4,12 +4,12 @@ import { useUpdatePresence } from '@workspace/api-client-react';
 export function usePresence(page: string, label: string, customerName?: string) {
   const update = useUpdatePresence();
   const sessionId = useRef(
-    sessionStorage.getItem('mawashi-session-id') || 
+    sessionStorage.getItem('dheebti-session-id') || 
     `session-${Date.now()}-${Math.random().toString(36).slice(2)}`
   );
 
   useEffect(() => {
-    sessionStorage.setItem('mawashi-session-id', sessionId.current);
+    sessionStorage.setItem('dheebti-session-id', sessionId.current);
     let interval: ReturnType<typeof setInterval>;
 
     const sendPresence = () => {
@@ -18,7 +18,7 @@ export function usePresence(page: string, label: string, customerName?: string) 
           sessionId: sessionId.current,
           page,
           label,
-          customerName: customerName || sessionStorage.getItem('mawashi-customer-name') || undefined,
+          customerName: customerName || sessionStorage.getItem('dheebti-customer-name') || undefined,
         }
       });
     };

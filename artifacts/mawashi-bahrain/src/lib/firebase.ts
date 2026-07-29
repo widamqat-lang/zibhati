@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage, isSupported } from "firebase/messaging";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyA-pEBojzKelfbwKRWaaVNrnvFsosJ4fLQ",
-  authDomain: "mawashi-bh.firebaseapp.com",
-  projectId: "mawashi-bh",
-  storageBucket: "mawashi-bh.firebasestorage.app",
-  messagingSenderId: "318610579508",
-  appId: "1:318610579508:web:a74494672650bf116f2a61"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 // Initialize Firebase

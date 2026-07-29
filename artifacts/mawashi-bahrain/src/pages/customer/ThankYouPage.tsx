@@ -10,7 +10,7 @@ export function ThankYouPage() {
   const [order, setOrder] = useState<Partial<Order> | null>(null);
 
   useEffect(() => {
-    const raw = sessionStorage.getItem('mawashi-last-order');
+    const raw = sessionStorage.getItem('dheebti-last-order');
     if (raw) setOrder(JSON.parse(raw));
   }, []);
 
@@ -27,7 +27,7 @@ export function ThankYouPage() {
             حياكم الله، طلبكم عندنا
           </h1>
           <p className="mx-auto mt-5 max-w-md text-sm leading-8 text-muted-foreground">
-            شكراً لثقتكم في مواشي البحرين. سيتواصل معكم فريقنا قريباً لتأكيد الوزن والموعد.
+            شكراً لثقتكم في ذبيحتي. سيتواصل معكم فريقنا قريباً لتأكيد الوزن والموعد.
           </p>
 
           {order && (

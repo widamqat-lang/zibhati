@@ -157,7 +157,7 @@ function ProductEditor({
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h2 className="text-sm font-bold">{product ? 'تعديل المنتج' : 'إضافة منتج'}</h2>
-          <p className="mt-1 text-[10px] text-muted-foreground">كل التفاصيل التي يراها أهل البحرين</p>
+          <p className="mt-1 text-[10px] text-muted-foreground">كل التفاصيل التي يراها أهل الإمارات</p>
         </div>
         <button type="button" onClick={onDone}>
           <X size={18} />
@@ -271,7 +271,7 @@ function ProductEditor({
         </div>
         
         <div>
-          <Label className="text-xs">السعر بالدينار</Label>
+          <Label className="text-xs">السعر بالدرهم</Label>
           <Input 
             type="number" 
             min="0" 

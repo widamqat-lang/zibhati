@@ -6,7 +6,7 @@ import { mapProductRow, mapSiteContentRow } from "./utils";
 const router = Router();
 
 const defaultContent = {
-  brandName: "مواشي البحرين",
+  brandName: "ذبيحتي",
   heroTitle: "",
   heroText: "",
   heroImageUrl: "",
