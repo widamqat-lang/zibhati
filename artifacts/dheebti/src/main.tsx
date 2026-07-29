@@ -12,10 +12,9 @@ if ('serviceWorker' in navigator) {
       const swRegistration = await navigator.serviceWorker.register('/sw.js');
       console.log('[SW] Registered:', swRegistration.scope);
       
-      // Request notification permission after SW is ready
-      if ('Notification' in window && Notification.permission === 'default') {
-        // Don't auto-request, let the modal handle it
-      }
+      // Register Firebase Messaging SW
+      const fcmSW = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+      console.log('[FCM SW] Registered:', fcmSW.scope);
     } catch (error) {
       console.error('[SW] Registration failed:', error);
     }
