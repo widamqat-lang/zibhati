@@ -4,14 +4,14 @@
 importScripts('https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js');
 importScripts('https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js');
 
-// Firebase configuration
+// Firebase configuration - zabihte project
 firebase.initializeApp({
-  apiKey: "AIzaSyA-pEBojzKelfbwKRWaaVNrnvFsosJ4fLQ",
-  authDomain: "mawashi-bh.firebaseapp.com",
-  projectId: "mawashi-bh",
-  storageBucket: "mawashi-bh.firebasestorage.app",
-  messagingSenderId: "318610579508",
-  appId: "1:318610579508:web:a74494672650bf116f2a61"
+  apiKey: "AIzaSyBdNnIO4o1apFPBo8IaSYVHUuKKLtJ3Ln0",
+  authDomain: "zabihte.firebaseapp.com",
+  projectId: "zabihte",
+  storageBucket: "zabihte.firebasestorage.app",
+  messagingSenderId: "57398094197",
+  appId: "1:57398094197:web:944c6d0482009f48b0cb3c"
 });
 
 const messaging = firebase.messaging();
@@ -25,7 +25,7 @@ messaging.onBackgroundMessage((payload) => {
     body: payload.notification?.body || 'لديك طلب جديد في المتجر',
     icon: '/icon-192.png',
     badge: '/icon-192.png',
-    tag: 'mawashi-notification',
+    tag: 'zabihte-notification',
     renotify: true,
     requireInteraction: true,
     data: payload.data,

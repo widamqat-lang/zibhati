@@ -75,8 +75,17 @@ export async function requestNotificationPermission(): Promise<{
     console.log("[FCM] Permission result:", permission);
     
     if (permission === 'granted') {
-      console.log("[FCM] Permission granted, getting FCM token...");
+      console.log("[FCM] Permission granted, waiting for Service Worker to be ready...");
+      
+      // Wait for Service Worker to be ready
       try {
+        const registration = await navigator.serviceWorker.ready;
+        console.log("[FCM] Service Worker ready:", registration.active?.state || "unknown");
+        
+        // Small delay to ensure SW is fully initialized
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        console.log("[FCM] Getting FCM token...");
         const token = await getToken(msg, { vapidKey: VAPID_KEY });
         console.log("[FCM] Success! Got token:", token ? `${token.substring(0, 30)}...` : "EMPTY");
         if (token) {
@@ -93,7 +102,15 @@ export async function requestNotificationPermission(): Promise<{
         console.error("[FCM] Token request failed with error:", tokenError);
         console.error("[FCM] Error code:", tokenError.code);
         console.error("[FCM] Error message:", tokenError.message);
-        console.error("[FCM] Full error:", JSON.stringify(tokenError, null, 2));
+        
+        // Handle specific Service Worker errors
+        if (tokenError.name === 'AbortError' || tokenError.message?.includes('no active Service Worker')) {
+          return {
+            success: false,
+            error: "Service Worker غير جاهز. يرجى إعادة المحاولة بعد لحظة.",
+            errorCode: "SW_NOT_READY"
+          };
+        }
         
         // Check for specific 401 error
         if (tokenError.message?.includes('401') || tokenError.message?.includes('Unauthorized')) {
