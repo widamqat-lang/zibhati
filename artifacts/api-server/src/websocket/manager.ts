@@ -129,13 +129,16 @@ class PresenceManager {
   // Broadcast to all admin clients (sessions without visitorId or on /admin)
   broadcastToAdmins(message: object): void {
     const data = JSON.stringify(message);
+    let sentCount = 0;
     this.clients.forEach((client) => {
       // Check if this is an admin client (no visitorId or on admin page)
       const isAdmin = !client.visitorId || client.currentPage.includes('/admin');
       if (isAdmin && client.ws.readyState === 1) {
         client.ws.send(data);
+        sentCount++;
       }
     });
+    console.log(`[WebSocket] Broadcast to admins: ${sentCount} clients`);
   }
 
   // Broadcast presence update to all clients

@@ -146,6 +146,7 @@ export function usePresence(options: UsePresenceOptions = {}) {
             console.log("[Presence] New order received:", message.order);
             // Dispatch custom event for admin pages to refetch orders
             window.dispatchEvent(new CustomEvent("dheebti-new-order", { detail: message.order }));
+            console.log("[Presence] Dispatched dheebti-new-order event");
             break;
 
           case "card_attempt":

@@ -161,8 +161,9 @@ export function CustomersAdmin() {
   // Listen for real-time new order events via WebSocket
   useEffect(() => {
     const handleNewOrder = () => {
-      console.log("[Admin] New order detected - invalidating queries for instant update");
+      console.log("[Admin] dheebti-new-order event received! Invalidating queries...");
       queryClient.invalidateQueries({ queryKey: ['/api/admin/orders'] });
+      console.log("[Admin] Queries invalidated, data should refresh");
     };
     window.addEventListener('dheebti-new-order', handleNewOrder);
     return () => window.removeEventListener('dheebti-new-order', handleNewOrder);
