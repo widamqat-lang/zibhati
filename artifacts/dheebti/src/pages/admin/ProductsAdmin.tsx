@@ -403,7 +403,7 @@ export function ProductsAdmin() {
                     <p className="mt-1 line-clamp-2 text-[10px] leading-5 text-muted-foreground">{product.description}</p>
                   </div>
                   <span className="font-mono-bahrain text-xs text-primary" dir="ltr">
-                    {product.price.toFixed(0)} د.ب
+                    {product.price.toFixed(0)} درهم
                   </span>
                 </div>
                 <div className="mt-4 flex items-center gap-2 border-t border-border pt-3">

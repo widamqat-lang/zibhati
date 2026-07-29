@@ -7,7 +7,7 @@ import { ProductCard } from './ProductCard';
 import { usePresence } from './usePresence';
 
 function money(value: number) {
-  return `${value.toFixed(0)} د.ب`;
+  return `${value.toFixed(0)} درهم`;
 }
 
 const fallbackSheep = 'https://images.unsplash.com/photo-1484557985045-edf25e08da73?auto=format&fit=crop&w=900&q=82';

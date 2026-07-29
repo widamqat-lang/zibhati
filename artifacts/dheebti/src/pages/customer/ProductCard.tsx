@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 const fallbackSheep = 'https://images.unsplash.com/photo-1484557985045-edf25e08da73?auto=format&fit=crop&w=900&q=82';
 
 function money(value: number) {
-  return `${value.toFixed(0)} د.ب`;
+  return `${value.toFixed(0)} درهم`;
 }
 
 // Get product image - prefers base64 image from DB, falls back to imageUrl
