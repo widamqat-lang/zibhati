@@ -1,8 +1,8 @@
 {
-  "name": "ذبيحتي - لوحة التحكم",
+  "name": "متجر ذبيحتي",
   "short_name": "ذبيحتي",
-  "description": "لوحة تحكم متجر ذبيحتي",
-  "start_url": "/admin",
+  "description": "أفضل أنواع المواشي الطازجة مع خدمة ذبح فوري وتوصيل سريع - توصيل مجاني على الطلب اليوم!",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
@@ -10,7 +10,7 @@
   "scope": "/",
   "lang": "ar",
   "dir": "rtl",
-  "categories": ["business", "productivity"],
+  "categories": ["business", "shopping"],
   "icons": [
     {
       "src": "/icon-192.png",
@@ -28,14 +28,14 @@
   "screenshots": [],
   "shortcuts": [
     {
-      "name": "الطلبات الجديدة",
-      "url": "/admin/orders",
-      "description": "عرض الطلبات الجديدة"
+      "name": "المنتجات",
+      "url": "/products",
+      "description": "تصفح منتجاتنا"
     },
     {
-      "name": "نظرة عامة",
-      "url": "/admin",
-      "description": "نظرة عامة على لوحة التحكم"
+      "name": "اطلب الآن",
+      "url": "/order",
+      "description": "قدم طلبك"
     }
   ],
   "related_applications": [],
