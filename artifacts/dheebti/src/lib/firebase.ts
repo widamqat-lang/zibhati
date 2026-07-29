@@ -18,9 +18,27 @@ let messaging: ReturnType<typeof getMessaging> | null = null;
 
 export async function getMessagingInstance() {
   if (!messaging) {
+    console.log("[FCM] Checking if messaging is supported...");
     const supported = await isSupported();
+    console.log("[FCM] Browser support for FCM:", supported);
+    
     if (supported) {
-      messaging = getMessaging(app);
+      console.log("[FCM] Initializing Firebase Messaging...");
+      console.log("[FCM] Firebase Config:", {
+        apiKey: firebaseConfig.apiKey?.substring(0, 20) + "...",
+        projectId: firebaseConfig.projectId,
+        messagingSenderId: firebaseConfig.messagingSenderId,
+        appId: firebaseConfig.appId?.substring(0, 20) + "..."
+      });
+      
+      try {
+        messaging = getMessaging(app);
+        console.log("[FCM] Firebase Messaging initialized successfully");
+      } catch (initError: any) {
+        console.error("[FCM] Failed to initialize messaging:", initError);
+      }
+    } else {
+      console.error("[FCM] Messaging is not supported in this browser");
     }
   }
   return messaging;
@@ -39,8 +57,12 @@ export async function requestNotificationPermission(): Promise<{
   errorCode?: string;
 }> {
   try {
+    console.log("[FCM] Starting notification permission request...");
+    console.log("[FCM] VAPID Key:", VAPID_KEY ? `${VAPID_KEY.substring(0, 20)}...` : "NOT SET");
+    
     const msg = await getMessagingInstance();
     if (!msg) {
+      console.error("[FCM] Error: Messaging not supported by browser");
       return { 
         success: false, 
         error: "المتصفح لا يدعم الإشعارات",
@@ -48,25 +70,63 @@ export async function requestNotificationPermission(): Promise<{
       };
     }
 
+    console.log("[FCM] Requesting notification permission from user...");
     const permission = await Notification.requestPermission();
+    console.log("[FCM] Permission result:", permission);
+    
     if (permission === 'granted') {
-      const token = await getToken(msg, { vapidKey: VAPID_KEY });
-      if (token) {
-        return { success: true, token };
-      } else {
-        return { 
-          success: false, 
-          error: "فشل في الحصول على رمز الجهاز",
-          errorCode: "TOKEN_ERROR"
+      console.log("[FCM] Permission granted, getting FCM token...");
+      try {
+        const token = await getToken(msg, { vapidKey: VAPID_KEY });
+        console.log("[FCM] Success! Got token:", token ? `${token.substring(0, 30)}...` : "EMPTY");
+        if (token) {
+          return { success: true, token };
+        } else {
+          console.error("[FCM] Error: Got empty token");
+          return { 
+            success: false, 
+            error: "فشل في الحصول على رمز الجهاز",
+            errorCode: "TOKEN_ERROR"
+          };
+        }
+      } catch (tokenError: any) {
+        console.error("[FCM] Token request failed with error:", tokenError);
+        console.error("[FCM] Error code:", tokenError.code);
+        console.error("[FCM] Error message:", tokenError.message);
+        console.error("[FCM] Full error:", JSON.stringify(tokenError, null, 2));
+        
+        // Check for specific 401 error
+        if (tokenError.message?.includes('401') || tokenError.message?.includes('Unauthorized')) {
+          return {
+            success: false,
+            error: "خطأ 401: Firebase يرفض الطلب. تأكد من:\n1. تفعيل Firebase Cloud Messaging API في Google Cloud Console\n2. صحة VAPID Key\n3. صحة Firebase API Key في الإعدادات",
+            errorCode: "FCM_401_ERROR"
+          };
+        }
+        
+        if (tokenError.code === 'messaging/registration-keys-not-found') {
+          return {
+            success: false,
+            error: "خطأ: مفتاح VAPID غير موجود في Firebase Console. اذهب إلى:\nFirebase Console → Project Settings → Cloud Messaging → Web Push certificates",
+            errorCode: "VAPID_KEY_NOT_FOUND"
+          };
+        }
+        
+        return {
+          success: false,
+          error: `خطأ في Firebase: ${tokenError.message}`,
+          errorCode: tokenError.code || "TOKEN_REQUEST_FAILED"
         };
       }
     } else if (permission === 'denied') {
+      console.error("[FCM] Permission denied by user");
       return { 
         success: false, 
         error: "تم رفض الإذن من المتصفح. يرجى تفعيل الإشعارات من إعدادات المتصفح.",
         errorCode: "PERMISSION_DENIED"
       };
     } else {
+      console.error("[FCM] Permission default (not granted or denied)");
       return { 
         success: false, 
         error: "لم يتم السماح بالإشعارات",
@@ -74,30 +134,9 @@ export async function requestNotificationPermission(): Promise<{
       };
     }
   } catch (error: any) {
-    console.error("Firebase Error:", error);
-    
-    // Handle specific Firebase errors
-    if (error.code === 'messaging/registration-keys-not-found') {
-      return {
-        success: false,
-        error: "خطأ في إعدادات Firebase: مفتاح VAPID غير موجود. يرجى مراجعة إعدادات Firebase Cloud Messaging.",
-        errorCode: "VAPID_KEY_NOT_FOUND"
-      };
-    }
-    if (error.code === 'messaging/push-subscription-change') {
-      return {
-        success: false,
-        error: "تم تغيير اشتراك الإشعارات. يرجى المحاولة مرة أخرى.",
-        errorCode: "SUBSCRIPTION_CHANGE"
-      };
-    }
-    if (error.code === 'messaging/token-subscribe-failed') {
-      return {
-        success: false,
-        error: "فشل في الاشتراك في الإشعارات. قد يكون المفتاح غير صحيح أو منتهي الصلاحية.",
-        errorCode: "TOKEN_SUBSCRIBE_FAILED"
-      };
-    }
+    console.error("[FCM] Unexpected error:", error);
+    console.error("[FCM] Error code:", error.code);
+    console.error("[FCM] Error message:", error.message);
     
     return { 
       success: false, 
