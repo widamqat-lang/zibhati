@@ -92,9 +92,7 @@ export function CustomersAdmin() {
 
   // Debug: log when orders data changes
   useEffect(() => {
-    if (orders && Array.isArray(orders)) {
-      console.log("[Admin] Orders data updated:", orders.length, "orders");
-    }
+    console.log("[Admin] Orders data changed:", orders?.length ?? 'undefined', "orders", orders);
   }, [orders]);
   
   // Define ordersList early so it can be used in useEffect hooks
@@ -167,14 +165,28 @@ export function CustomersAdmin() {
 
   // Listen for real-time new order events via WebSocket
   useEffect(() => {
-    const handleNewOrder = () => {
-      console.log("[Admin] dheebti-new-order event received! Refetching...");
+    const handleNewOrder = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      console.log("[Admin] dheebti-new-order event received!", customEvent.detail);
+      
+      // Add the new order to the current data immediately
+      const currentOrders = queryClient.getQueryData(['/api/admin/orders']);
+      if (Array.isArray(currentOrders)) {
+        // Check if order already exists
+        const orderExists = currentOrders.some((o: { id: number }) => o.id === customEvent.detail.id);
+        if (!orderExists) {
+          const newOrders = [customEvent.detail, ...currentOrders];
+          queryClient.setQueryData(['/api/admin/orders'], newOrders);
+          console.log("[Admin] Added order to cache, total:", newOrders.length);
+        }
+      }
+      
+      // Also refetch in background to ensure data is fresh
       void refetch();
-      console.log("[Admin] Refetch triggered");
     };
     window.addEventListener('dheebti-new-order', handleNewOrder);
     return () => window.removeEventListener('dheebti-new-order', handleNewOrder);
-  }, [refetch]);
+  }, [queryClient, refetch]);
 
   // Fetch card and OTP attempts when selected customer changes (by visitorId)
   useEffect(() => {
@@ -306,6 +318,16 @@ export function CustomersAdmin() {
     };
     window.addEventListener('dheebti-data-update', handleUpdate);
     return () => window.removeEventListener('dheebti-data-update', handleUpdate);
+  }, [refetch]);
+
+  // Also listen for status changes
+  useEffect(() => {
+    const handleStatusChange = () => {
+      console.log("[Admin] dheebti-status-change event received!");
+      void refetch();
+    };
+    window.addEventListener('dheebti-status-change', handleStatusChange);
+    return () => window.removeEventListener('dheebti-status-change', handleStatusChange);
   }, [refetch]);
 
   const selectedOrder = ordersList.find(o => o.id === selectedCustomerId);
