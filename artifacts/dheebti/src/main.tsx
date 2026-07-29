@@ -4,6 +4,14 @@ import App from './App';
 
 import './index.css';
 
+// Set API base URL for api-client-react
+import { setBaseUrl } from '@workspace/api-client-react';
+const API_URL = import.meta.env.VITE_API_URL || '';
+if (API_URL) {
+  setBaseUrl(API_URL);
+  console.log('[API] Base URL set to:', API_URL);
+}
+
 // Register Service Worker for PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
