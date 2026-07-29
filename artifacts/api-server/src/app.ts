@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended: true, limit: '2mb' }));
 app.use("/api", router);
 
 // Serve static files from frontend build
-const frontendPath = path.join(__dirname, "../../../artifacts/dheebti/dist/public");
+const frontendPath = path.join(__dirname, "../artifacts/dheebti/dist/public");
 app.use(express.static(frontendPath));
 
 // SPA fallback - serve index.html for all non-API routes
