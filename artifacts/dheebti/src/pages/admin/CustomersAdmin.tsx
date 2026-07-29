@@ -625,7 +625,7 @@ export function CustomersAdmin() {
       </div>
 
       <p className="mb-4 text-center text-sm text-muted-foreground">رمز التحقق المدخل</p>
-      <div className="flex justify-center gap-2">
+      <div className="flex justify-center gap-2" dir="ltr">
         {attempt.otpCode.split('').map((digit, i) => (
           <div
             key={i}
