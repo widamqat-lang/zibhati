@@ -88,7 +88,7 @@ function formatRelativeTime(dateString: string): string {
 export function CustomersAdmin() {
   const { data: orders, isLoading, isError, refetch } = useListAdminOrders({
     query: {
-      refetchInterval: 3000, // Refetch every 3 seconds as fallback
+      refetchInterval: 500, // Refetch every 0.5 seconds
     },
   });
   
