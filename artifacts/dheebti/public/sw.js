@@ -18,19 +18,19 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Activate event
+// Activate event - Clear all cache on startup
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating...');
+  console.log('[SW] Activating... Clearing all cache...');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
+        cacheNames.map((name) => caches.delete(name))
       );
+    }).then(() => {
+      console.log('[SW] All cache cleared');
+      return self.clients.claim();
     })
   );
-  self.clients.claim();
 });
 
 // Fetch event
