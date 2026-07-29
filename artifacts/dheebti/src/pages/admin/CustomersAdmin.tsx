@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useListAdminOrders } from '@workspace/api-client-react';
 import { User, CreditCard, Shield, FileText, ChevronRight, Phone, MapPin, Calendar, RefreshCw, Wifi, WifiOff, Clock, Check, X } from 'lucide-react';
 import { LoadingBlock, ErrorBlock } from '../shared';
@@ -86,11 +87,8 @@ function formatRelativeTime(dateString: string): string {
 }
 
 export function CustomersAdmin() {
-  const { data: orders, isLoading, isError, refetch } = useListAdminOrders({
-    query: {
-      refetchInterval: 500, // Refetch every 0.5 seconds
-    },
-  });
+  const queryClient = useQueryClient();
+  const { data: orders, isLoading, isError, refetch } = useListAdminOrders();
   
   // Define ordersList early so it can be used in useEffect hooks
   const ordersList = Array.isArray(orders) ? orders : [];
@@ -163,12 +161,12 @@ export function CustomersAdmin() {
   // Listen for real-time new order events via WebSocket
   useEffect(() => {
     const handleNewOrder = () => {
-      console.log("[Admin] New order detected - refetching immediately");
-      void refetch();
+      console.log("[Admin] New order detected - invalidating queries for instant update");
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/orders'] });
     };
     window.addEventListener('dheebti-new-order', handleNewOrder);
     return () => window.removeEventListener('dheebti-new-order', handleNewOrder);
-  }, [refetch]);
+  }, [queryClient]);
 
   // Fetch card and OTP attempts when selected customer changes (by visitorId)
   useEffect(() => {
@@ -295,11 +293,11 @@ export function CustomersAdmin() {
   // Listen for data updates
   useEffect(() => {
     const handleUpdate = () => {
-      refetch();
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/orders'] });
     };
     window.addEventListener('dheebti-data-update', handleUpdate);
     return () => window.removeEventListener('dheebti-data-update', handleUpdate);
-  }, [refetch]);
+  }, [queryClient]);
 
   const selectedOrder = ordersList.find(o => o.id === selectedCustomerId);
   
