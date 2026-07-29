@@ -5,8 +5,23 @@ import { db, adminDevicesTable } from "@workspace/db";
 // Helper function to format private key
 function getPrivateKey(): string {
   const rawKey = process.env.FIREBASE_PRIVATE_KEY || "";
-  // Replace escaped newlines with actual newlines
-  return rawKey.replace(/\\n/g, "\n");
+  if (!rawKey) {
+    throw new Error("FIREBASE_PRIVATE_KEY environment variable is not set");
+  }
+  
+  // Handle multiple escape patterns that might occur
+  let formattedKey = rawKey
+    .replace(/\\n/g, "\n")           // Replace \\n with actual newline
+    .replace(/\\\\n/g, "\n")         // Replace \\\\n with actual newline
+    .replace(/\\r\\n/g, "\n")        // Replace \\r\\n with actual newline
+    .replace(/\r\n/g, "\n");         // Replace literal \r\n with \n
+  
+  // Ensure the key starts and ends correctly
+  if (!formattedKey.includes("-----BEGIN PRIVATE KEY-----")) {
+    throw new Error("Invalid private key format: missing BEGIN marker");
+  }
+  
+  return formattedKey;
 }
 
 // Firebase Admin configuration from environment variables
