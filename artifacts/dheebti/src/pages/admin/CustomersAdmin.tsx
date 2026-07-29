@@ -89,6 +89,13 @@ function formatRelativeTime(dateString: string): string {
 export function CustomersAdmin() {
   const queryClient = useQueryClient();
   const { data: orders, isLoading, isError, refetch } = useListAdminOrders();
+
+  // Debug: log when orders data changes
+  useEffect(() => {
+    if (orders && Array.isArray(orders)) {
+      console.log("[Admin] Orders data updated:", orders.length, "orders");
+    }
+  }, [orders]);
   
   // Define ordersList early so it can be used in useEffect hooks
   const ordersList = Array.isArray(orders) ? orders : [];
