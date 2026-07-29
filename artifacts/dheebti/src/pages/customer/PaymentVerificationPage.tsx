@@ -38,12 +38,16 @@ export function PaymentVerificationPage() {
 
     // Auto-focus next input when digit is entered
     if (value && index < 5) {
-      inputRefs.current[index + 1]?.focus();
+      setTimeout(() => {
+        inputRefs.current[index + 1]?.focus();
+      }, 0);
     }
 
     // If all 6 digits entered, hide keyboard
     if (newCode.join('').length === 6) {
-      inputRefs.current[5]?.blur();
+      setTimeout(() => {
+        inputRefs.current[5]?.blur();
+      }, 0);
     }
   };
 
@@ -57,6 +61,13 @@ export function PaymentVerificationPage() {
     // If previous field is empty, focus on it instead
     if (index > 0 && !code[index - 1]) {
       inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleClick = (index: number) => {
+    // Ensure focus is on clicked input for mobile
+    if (inputRefs.current[index]) {
+      inputRefs.current[index]?.focus();
     }
   };
 
@@ -115,14 +126,6 @@ export function PaymentVerificationPage() {
     setLocation('/payment-waiting');
   };
 
-  useEffect(() => {
-    // Auto-focus first input on page load with slight delay for mobile
-    const timer = setTimeout(() => {
-      inputRefs.current[0]?.focus();
-    }, 100);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <Shell>
       <div className="page-enter mx-auto flex min-h-[calc(100vh-104px)] items-center justify-center px-5 py-10 lg:py-16">
@@ -154,10 +157,12 @@ export function PaymentVerificationPage() {
                 inputMode="numeric"
                 maxLength={1}
                 value={digit}
+                autoFocus={index === 0}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
                 onPaste={handlePaste}
                 onFocus={() => handleFocus(index)}
+                onClick={() => handleClick(index)}
                 className="h-[48px] w-[38px] rounded-[10px] bg-[rgb(228,228,228)] text-center text-lg font-semibold text-[rgb(44,44,44)] outline-none caret-[rgb(127,129,255)] transition-all duration-300 focus:bg-[rgba(127,129,255,0.199)] focus:shadow-none"
                 style={{ direction: 'ltr', textAlign: 'center' }}
               />
