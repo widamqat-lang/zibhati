@@ -5,14 +5,14 @@ import { db, adminDevicesTable } from "@workspace/db";
 // Firebase Admin configuration from environment variables
 const firebaseConfig = {
   type: "service_account",
-  project_id: process.env.FIREBASE_PROJECT_ID,
-  private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-  private_key: (process.env.FIREBASE_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
-  client_email: process.env.FIREBASE_CLIENT_EMAIL,
+  project_id: process.env.FIREBASE_PROJECT_ID || "zabihte",
+  private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID || "0a4b0071c4ba98cd2f5a7e2b82afc922f1cfc578",
+  private_key: (process.env.FIREBASE_PRIVATE_KEY || "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDI0xyhWxpTissd\nsNg1bnZm2AygBRwP8z8DnXKcBDmpKebeSyZEzJL8W9XvC3A27KUH2P2sK5f6xrBq\nh7ucfD6ubmUgBhg/qG40SEVtDT4Akpzr4fjBIVrPYpbNGCWdOMygmklGLmW44dF0\nA04S3IXM4uksIQXCeHAkUh6haLTUeuZJ2XUzCbx/bRufdYbGI8IdBhBJqjiI6DMb\nJrDEra9aBTHBz+fHRy9M/lLz88CdpxS6vPVTzehNRmfPEWsD9ktOd8CIOVW4hxvA\nCaEGrg2liKE3QF0XHznOmFJpYpD/mx8SF/VcCbTrKwtHmGfnMMuyLv8XvB+Y/AuC\n0ilIvnonAgMBAAECggEABkVRTfIiTrZOxIz5Gb7RQ6gLY0b4xI0iTC9maY8lBC5v\nkkSWdVK0ZENNDG6dZzM/rZCnZ/DhVgG0qh7pSzTPk3LIny9eVatUuNBo5106fZoW\nYrQAdUdgjO+iXDuDMSpmeVbxlf3TTB3N0U/16CQRD+ZZKyxjM0Dysq+kKGlOL2d4\n3GgAbMdMgpYyqcR5onl2AubGWNfMpR1Xmsx9Nm4y66SQehRtJlyXO/wuIQIhGm4l\nOOE1SV8wUiyFcbuaoJPr0J44OVL9Sx5d3KpiAz81UbCT3+Uyzu3FHllEDM7dcUyi\n37hhj2uG/oaIedlPcdUMzp4Ca4xGd2JN7nBlSHbjwQKBgQDnf0jxhENqXDM46iff\n7cTW0HX4GXfZHkN48uR/PMDBMikAOKgeyWC+NuzOtYYiKTQOynLQoPKphxbsk5ib\n8ulJuisyGCm+cCEWXDbkiz3QFgM3uZ+1mbFR7Uh7UGLPp5MMkU/xuOxSrYbZvoGm\nUPpOrHkdR/KMv1Kgvzxh5uok2wKBgQDeFLbwxToM2QeXDa4aEQcwm6BZ4ysUvnXm\nkwe/E5uyrdRFuJRdwm+mQXm71rcDKeKNxEBda6QwyvvjiDNo3TEV0+T4YKWuVloW\n0xRaTT/uljBzPT49SoRq3hyAEgd63kbMtDbw2Ou+QY2zY6LnbGsZfHOAJAQq6WCy\nIHd9arb7pQKBgQCl6MJlXU5XltabDq4fPa/Z6LLzaYVMVPU0ZJfAXNEkZQefgftz\nfQ3ZpVGYX95O80q84vjgbskbGJckXC9+bNwnG8bDcy/PrVr5RIOOzgAx9uS9dkpx\nA0JjHfTZc+YtPsMTub0a11Z/dp/zxCX1BYovAksW4i6CEshsLkJfQ/hBCwKBgFIn\nb5WaIGNoVfp3QRS7f+FncOZPtzwxSQRHF/KDmnF7BK/WHGyi5RKn3hSy1XkCIaE4\nHGdyzoaOUKhXVk1Qpjvg6y9G8YOQxjrzUvAk66WjQcEfwsqBqoKuL/Tgtoupdp97\ne2eVl4AGWBkonrbl0KjY9RFOQYxuUSsT/6ARvidRAoGBAMJBW/Bri7RlBZaPJfQI\nAIOZqR9K7MkaQXyiZq805JTlfLPesaLAREQmWI6Q9tef3O2/ZJgwEM2sMVMyoiO9\nq0DscicRXYzZuTfxSYlGwEfpNbP1+6UHXaH/S6ImIXIjVN1znns4e0Ue6TqRaNSV\niXLckv+dz0E1n4ignj1qypXf\n-----END PRIVATE KEY-----\n").replace(/\\n/g, "\n"),
+  client_email: process.env.FIREBASE_CLIENT_EMAIL || "firebase-adminsdk-fbsvc@zabihte.iam.gserviceaccount.com",
   auth_uri: "https://accounts.google.com/o/oauth2/auth",
   token_uri: "https://oauth2.googleapis.com/token",
   auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
-  client_x509_cert_url: `https://www.googleapis.com/robot/v1/metadata/x509/${process.env.FIREBASE_CLIENT_EMAIL}`,
+  client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40zabihte.iam.gserviceaccount.com",
   universe_domain: "googleapis.com"
 };
 

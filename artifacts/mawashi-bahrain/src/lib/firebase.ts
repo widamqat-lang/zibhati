@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage, isSupported } from "firebase/messaging";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBdNnIO4o1apFPBo8IaSYVHUuKKLtJ3Ln0",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "zabihte.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "zabihte",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "zabihte.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "57398094197",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:57398094197:web:944c6d0482009f48b0cb3c"
 };
 
 // Initialize Firebase
