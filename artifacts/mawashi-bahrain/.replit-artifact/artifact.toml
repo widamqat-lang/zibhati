@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "مواشي البحرين"
+version = "1.0.0"
+id = "artifacts/mawashi-bahrain"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19141
+
+[services.development]
+run = "pnpm --filter @workspace/mawashi-bahrain run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/mawashi-bahrain", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/mawashi-bahrain/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19141"
+BASE_PATH = "/"

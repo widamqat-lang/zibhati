@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Kufi+Arabic:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-card-border: hsl(var(--card-border));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-popover-border: hsl(var(--popover-border));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-border: var(--primary-border);
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-secondary-border: var(--secondary-border);
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-muted-border: var(--muted-border);
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-border: var(--accent-border);
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --font-sans: var(--app-font-sans);
+  --font-serif: var(--app-font-serif);
+  --font-mono: var(--app-font-mono);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --background: 39 44% 96%;
+  --foreground: 165 24% 18%;
+  --border: 37 25% 84%;
+  --input: 37 25% 84%;
+  --ring: 16 58% 45%;
+  --card: 42 47% 99%;
+  --card-foreground: 165 24% 18%;
+  --card-border: 37 30% 87%;
+  --popover: 42 47% 99%;
+  --popover-foreground: 165 24% 18%;
+  --popover-border: 37 30% 87%;
+  --primary: 16 58% 45%;
+  --primary-foreground: 40 48% 97%;
+  --secondary: 157 25% 30%;
+  --secondary-foreground: 40 48% 97%;
+  --muted: 38 32% 91%;
+  --muted-foreground: 165 10% 43%;
+  --accent: 42 79% 64%;
+  --accent-foreground: 165 24% 18%;
+  --destructive: 3 62% 45%;
+  --destructive-foreground: 40 48% 97%;
+  --sidebar: 157 25% 30%;
+  --sidebar-foreground: 40 48% 97%;
+  --sidebar-border: 157 21% 38%;
+  --sidebar-primary: 42 79% 64%;
+  --sidebar-primary-foreground: 165 24% 18%;
+  --sidebar-accent: 157 19% 37%;
+  --sidebar-accent-foreground: 40 48% 97%;
+  --sidebar-ring: 42 79% 64%;
+  --app-font-sans: 'Noto Kufi Arabic', 'DM Sans', sans-serif;
+  --app-font-serif: Georgia, serif;
+  --app-font-mono: 'IBM Plex Mono', monospace;
+  --radius: 1rem;
+  --primary-border: hsl(var(--primary));
+  --secondary-border: hsl(var(--secondary));
+  --muted-border: hsl(var(--muted));
+  --accent-border: hsl(var(--accent));
+  --destructive-border: hsl(var(--destructive));
+  --elevate-1: rgba(31, 61, 53, 0.055);
+  --elevate-2: rgba(31, 61, 53, 0.1);
+}
+
+.dark {
+  --background: 165 24% 12%;
+  --foreground: 40 48% 97%;
+  --border: 157 16% 27%;
+  --input: 157 16% 27%;
+  --ring: 16 58% 55%;
+  --card: 165 22% 16%;
+  --card-foreground: 40 48% 97%;
+  --card-border: 157 16% 27%;
+  --popover: 165 22% 16%;
+  --popover-foreground: 40 48% 97%;
+  --popover-border: 157 16% 27%;
+  --primary: 16 63% 58%;
+  --primary-foreground: 165 24% 12%;
+  --secondary: 42 61% 62%;
+  --secondary-foreground: 165 24% 12%;
+  --muted: 157 18% 23%;
+  --muted-foreground: 40 15% 71%;
+  --accent: 42 73% 62%;
+  --accent-foreground: 165 24% 12%;
+  --destructive: 3 63% 58%;
+  --destructive-foreground: 165 24% 12%;
+  --sidebar: 165 28% 9%;
+  --sidebar-foreground: 40 48% 97%;
+  --sidebar-border: 157 18% 23%;
+  --sidebar-primary: 42 73% 62%;
+  --sidebar-primary-foreground: 165 24% 12%;
+  --sidebar-accent: 157 20% 17%;
+  --sidebar-accent-foreground: 40 48% 97%;
+  --sidebar-ring: 42 73% 62%;
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    direction: rtl;
+    min-width: 320px;
+  }
+  button, input, textarea, select { font: inherit; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+}
+
+@layer utilities {
+  .grain::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    opacity: .035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
+  .font-display { font-family: var(--app-font-sans); }
+  .font-mono-bahrain { font-family: var(--app-font-mono); letter-spacing: -.04em; }
+  .text-balance { text-wrap: balance; }
+  .shadow-warm { box-shadow: 0 20px 60px rgba(102, 65, 38, .12); }
+  .shadow-card { box-shadow: 0 8px 28px rgba(62, 62, 35, .08), 0 1px 2px rgba(62, 62, 35, .05); }
+  .ring-offset-background { --tw-ring-offset-color: hsl(var(--background)); }
+}
+
+.app-shell { min-height: 100dvh; overflow-x: clip; }
+.page-enter { animation: page-enter .55s cubic-bezier(.22,1,.36,1) both; }
+.rise-in { animation: rise-in .7s cubic-bezier(.22,1,.36,1) both; }
+.delay-1 { animation-delay: .08s; }
+.delay-2 { animation-delay: .16s; }
+.delay-3 { animation-delay: .24s; }
+.delay-4 { animation-delay: .32s; }
+.pulse-dot { animation: pulse-dot 2.2s ease-in-out infinite; }
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(.85); opacity: .55; }
+  50% { transform: scale(1); opacity: 1; }
+}
+
+::selection { background: hsl(var(--accent)); color: hsl(var(--foreground)); }

@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+artifacts/*/dist/
+artifacts/*/.vite/
+dist/
+build/
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# TypeScript
+*.tsbuildinfo
+.tsbuildinfo
+
+# Railway (generated)
+.replit
+replit.nix
+
+# Test coverage
+coverage/
+*.lcov
+
+# Temp files
+tmp/
+temp/
+*.tmp
+
+# Railway deployment files
+artifacts/api-server/.railway/
+artifacts/mawashi-bahrain/.railway/

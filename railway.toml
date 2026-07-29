@@ -1,0 +1,13 @@
+# ============================================
+# Railway Configuration - Monorepo
+# ============================================
+
+[build]
+  builder = "DOCKERFILE"
+  dockerfilePath = "Dockerfile.api"
+
+[deploy]
+  numReplicas = 1
+  restartPolicyType = "ON_FAILURE"
+  restartPolicyMaxRetries = 10
+  healthCheckPath = "/api/healthz"
