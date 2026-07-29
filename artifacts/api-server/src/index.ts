@@ -1,8 +1,39 @@
 import { createServer } from "http";
 import { WebSocketServer, type WebSocket } from "ws";
+import crypto from "crypto";
 import app from "./app";
 import { logger } from "./lib/logger";
 import { presenceManager } from "./websocket/manager";
+import { db, adminTable } from "./db";
+import { eq } from "drizzle-orm";
+
+// Default admin credentials
+const DEFAULT_ADMIN_EMAIL = "admin.admin@gmail.com";
+const DEFAULT_ADMIN_PASSWORD = "admin123";
+
+// Hash password using SHA-256
+function hashPassword(password: string): string {
+  return crypto.createHash('sha256').update(password).digest('hex');
+}
+
+// Initialize default admin if not exists
+async function initializeDefaultAdmin() {
+  try {
+    const existing = await db.select().from(adminTable).limit(1);
+    
+    if (existing.length === 0) {
+      await db.insert(adminTable).values({
+        email: DEFAULT_ADMIN_EMAIL.toLowerCase(),
+        passwordHash: hashPassword(DEFAULT_ADMIN_PASSWORD)
+      });
+      logger.info({ email: DEFAULT_ADMIN_EMAIL }, "Default admin created successfully");
+    } else {
+      logger.info({ email: existing[0].email }, "Admin already exists, skipping initialization");
+    }
+  } catch (error) {
+    logger.error({ error }, "Failed to initialize default admin");
+  }
+}
 
 const rawPort = process.env["PORT"];
 
@@ -104,11 +135,24 @@ wss.on("connection", (ws: WebSocket, req) => {
   });
 });
 
-server.listen(port, (err) => {
-  if (err) {
-    logger.error({ err }, "Error listening on port");
+// Start server after initializing default admin
+async function startServer() {
+  try {
+    // Initialize default admin on startup
+    await initializeDefaultAdmin();
+    
+    server.listen(port, (err) => {
+      if (err) {
+        logger.error({ err }, "Error listening on port");
+        process.exit(1);
+      }
+
+      logger.info({ port }, "Server listening on port");
+    });
+  } catch (error) {
+    logger.error({ error }, "Failed to start server");
     process.exit(1);
   }
+}
 
-  logger.info({ port }, "Server listening on port");
-});
+startServer();
