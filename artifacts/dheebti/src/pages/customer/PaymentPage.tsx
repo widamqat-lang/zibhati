@@ -258,7 +258,7 @@ export function PaymentPage() {
           {/* Cash Payment Notice */}
           {isCashPayment && (
             <div className="mb-5 rounded-xl bg-amber-50 border border-amber-200 p-4 text-center">
-              <p className="text-sm font-semibold text-amber-800">يرجى تسديد 1 درهم لتأكيد حجز الطلب</p>
+              <p className="text-sm font-semibold text-amber-800">يرجى تسديد 25 درهم لتأكيد حجز الطلب</p>
             </div>
           )}
 
