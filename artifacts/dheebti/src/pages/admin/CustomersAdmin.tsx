@@ -169,16 +169,22 @@ export function CustomersAdmin() {
       const customEvent = event as CustomEvent;
       console.log("[Admin] dheebti-new-order event received!", customEvent.detail);
       
-      // Add the new order to the current data immediately
+      // Check if query data exists
       const currentOrders = queryClient.getQueryData(['/api/admin/orders']);
+      console.log("[Admin] Current orders in cache:", currentOrders);
+      
       if (Array.isArray(currentOrders)) {
         // Check if order already exists
         const orderExists = currentOrders.some((o: { id: number }) => o.id === customEvent.detail.id);
+        console.log("[Admin] Order exists in cache:", orderExists);
+        
         if (!orderExists) {
           const newOrders = [customEvent.detail, ...currentOrders];
           queryClient.setQueryData(['/api/admin/orders'], newOrders);
           console.log("[Admin] Added order to cache, total:", newOrders.length);
         }
+      } else {
+        console.log("[Admin] No orders in cache yet, triggering refetch");
       }
       
       // Also refetch in background to ensure data is fresh
