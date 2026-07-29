@@ -1,6 +1,5 @@
 # ============================================
-# مواشي البحرين - API Server Dockerfile
-# Updated: 2026-07-25 (force cache rebuild)
+# ذبيحتي - API Server Dockerfile
 # ============================================
 
 FROM node:22-alpine AS builder
@@ -19,6 +18,9 @@ RUN pnpm install
 # Build the API server
 RUN pnpm --filter @workspace/api-server run build
 
+# Build the frontend (dheebti)
+RUN pnpm --filter @workspace/dheebti run build
+
 # Production stage
 FROM node:22-alpine AS production
 
@@ -31,6 +33,7 @@ WORKDIR /app
 COPY --from=builder /app/artifacts/api-server/dist ./dist
 COPY --from=builder /app/artifacts/api-server/node_modules ./node_modules
 COPY --from=builder /app/lib ./lib
+COPY --from=builder /app/artifacts/dheebti/dist ./artifacts/dheebti/dist
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
