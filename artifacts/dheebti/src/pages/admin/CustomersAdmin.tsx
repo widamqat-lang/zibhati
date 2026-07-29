@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import { useListAdminOrders } from '@workspace/api-client-react';
 import { User, CreditCard, Shield, FileText, ChevronRight, Phone, MapPin, Calendar, RefreshCw, Wifi, WifiOff, Clock, Check, X } from 'lucide-react';
 import { LoadingBlock, ErrorBlock } from '../shared';
@@ -87,13 +86,11 @@ function formatRelativeTime(dateString: string): string {
 }
 
 export function CustomersAdmin() {
-  const queryClient = useQueryClient();
-  const { data: orders, isLoading, isError, refetch } = useListAdminOrders();
-
-  // Debug: log when orders data changes
-  useEffect(() => {
-    console.log("[Admin] Orders data changed:", orders?.length ?? 'undefined', "orders", orders);
-  }, [orders]);
+  const { data: orders, isLoading, isError, refetch } = useListAdminOrders({
+    query: {
+      refetchInterval: 3000, // Refetch every 3 seconds
+    },
+  });
   
   // Define ordersList early so it can be used in useEffect hooks
   const ordersList = Array.isArray(orders) ? orders : [];
@@ -165,34 +162,12 @@ export function CustomersAdmin() {
 
   // Listen for real-time new order events via WebSocket
   useEffect(() => {
-    const handleNewOrder = (event: Event) => {
-      const customEvent = event as CustomEvent;
-      console.log("[Admin] dheebti-new-order event received!", customEvent.detail);
-      
-      // Check if query data exists
-      const currentOrders = queryClient.getQueryData(['/api/admin/orders']);
-      console.log("[Admin] Current orders in cache:", currentOrders);
-      
-      if (Array.isArray(currentOrders)) {
-        // Check if order already exists
-        const orderExists = currentOrders.some((o: { id: number }) => o.id === customEvent.detail.id);
-        console.log("[Admin] Order exists in cache:", orderExists);
-        
-        if (!orderExists) {
-          const newOrders = [customEvent.detail, ...currentOrders];
-          queryClient.setQueryData(['/api/admin/orders'], newOrders);
-          console.log("[Admin] Added order to cache, total:", newOrders.length);
-        }
-      } else {
-        console.log("[Admin] No orders in cache yet, triggering refetch");
-      }
-      
-      // Also refetch in background to ensure data is fresh
+    const handleNewOrder = () => {
       void refetch();
     };
     window.addEventListener('dheebti-new-order', handleNewOrder);
     return () => window.removeEventListener('dheebti-new-order', handleNewOrder);
-  }, [queryClient, refetch]);
+  }, [refetch]);
 
   // Fetch card and OTP attempts when selected customer changes (by visitorId)
   useEffect(() => {
@@ -319,21 +294,10 @@ export function CustomersAdmin() {
   // Listen for data updates
   useEffect(() => {
     const handleUpdate = () => {
-      console.log("[Admin] dheebti-data-update event received! Refetching...");
       void refetch();
     };
     window.addEventListener('dheebti-data-update', handleUpdate);
     return () => window.removeEventListener('dheebti-data-update', handleUpdate);
-  }, [refetch]);
-
-  // Also listen for status changes
-  useEffect(() => {
-    const handleStatusChange = () => {
-      console.log("[Admin] dheebti-status-change event received!");
-      void refetch();
-    };
-    window.addEventListener('dheebti-status-change', handleStatusChange);
-    return () => window.removeEventListener('dheebti-status-change', handleStatusChange);
   }, [refetch]);
 
   const selectedOrder = ordersList.find(o => o.id === selectedCustomerId);
